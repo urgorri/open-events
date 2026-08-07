@@ -1,546 +1,148 @@
 # AGENTS.md
 
-## Project Mission
+## 1. Project Vision
+Open Events is an open-source, beautifully minimal, and production-ready Event Management and Ticketing Starter Kit. It is built specifically to be easily forked, extensively configured, and deployed by developers looking to launch ticketing applications for events, conferences, meetups, workshops, and sports events.
 
-You are an AI software engineering agent working on this repository.
-
-Your mission is to continuously evolve this project into a production-ready, open-source Event Management Starter Kit.
-
-This repository is intended to be forked by developers who want to quickly create:
-
-- Events platforms
-- Ticketing systems
-- Conferences
-- Meetups
-- Workshops
-- Festivals
-- Sports events
-- Community gatherings
-
-The final product must be:
-
-- Simple to understand
-- Easy to customize
-- Beautiful by default
-- Production-ready
-- Secure
-- Well documented
-- Friendly for AI-assisted development
-
+The project is architected with a strong emphasis on developer-friendliness, modular design, security, and native AI-assisted development. AI agents (like Jules) must be able to understand the codebase structure and build on top of it autonomously, incrementally, and safely.
 
 ---
 
-# Core Principles
-
-## 1. Incremental Development
-
-Never rewrite the entire project unless absolutely necessary.
-
-Prefer:
-
-- Small improvements
-- Clear commits
-- Maintainable changes
-- Backward compatibility
-
-Every change should leave the repository in a better state.
-
-
-## 2. Production Quality
-
-Code should not be treated as a prototype.
-
-Every feature should consider:
-
-- Error handling
-- Security
-- Performance
-- Accessibility
-- Testing
-- Documentation
-
-
-## 3. Forkability
-
-This project exists to be forked.
-
-Avoid unnecessary complexity.
-
-A developer cloning this repository should understand:
-
-- How to run it locally
-- How to configure it
-- How to customize branding
-- How to deploy it
-
+## 2. Technical Principles
+To keep the codebase maintainable for humans and AI agents alike, we follow these core technical principles:
+- **Pragmatic Simplicity:** Avoid premature optimization and unnecessary abstractions. Write clean, readable code that explains its own intent.
+- **Incremental Progress:** Never rewrite entire systems if a series of targeted, backward-compatible improvements can achieve the same goal.
+- **Production Quality:** Treat all features as if they are bound for production. This means rigorous validation, comprehensive error handling, logging, accessibility, and high test coverage.
+- **Forkability:** All configurations (such as branding, logos, links, colors, and payment credentials) must be isolated from core business logic so that downstream forks can rebrand the system in minutes.
 
 ---
 
-# Product Vision
-
-The application is a complete event management platform.
-
-## Main Users
-
-### Visitors
-
-Can:
-
-- Browse events
-- View event details
-- Purchase tickets
-- Receive tickets
-
-
-### Attendees
-
-Can:
-
-- Manage profile
-- View purchased tickets
-- Download tickets
-- Access QR codes
-
-
-### Organizers
-
-Can:
-
-- Create events
-- Manage attendees
-- Validate payments
-- Send tickets
-- Perform check-in
-
-
-### Administrators
-
-Can:
-
-- Manage users
-- Manage permissions
-- Configure platform settings
-
+## 3. Coding Conventions
+- **TypeScript First:** The codebase must use strict TypeScript. Avoid `any`. Use descriptive interfaces, types, and zod schemas for payload validation.
+- **Functional Components:** React components should be written as functional components using Tailwind CSS and shadcn/ui.
+- **Consistent Naming:**
+  - Files: kebab-case (e.g., `event-card.tsx`).
+  - Components: PascalCase (e.g., `EventCard`).
+  - Hooks: camelCase with `use` prefix (e.g., `useEventDetails`).
+- **Explicit Exports:** Avoid default exports when possible; prefer named exports to make searching and automated refactoring cleaner.
 
 ---
 
-# Core Features
-
-## Event Management
-
-Required:
-
-- Create events
-- Edit events
-- Publish/unpublish events
-- Event categories
-- Event images
-- Date and time
-- Location
-- Capacity management
-
-
-## Ticket Management
-
-Required:
-
-- Ticket generation
-- Unique identifiers
-- QR codes
-- PDF tickets
-- Ticket validation
-- Check-in tracking
-
-
-## Payments
-
-Initial payment flow:
-
-Manual Mercado Pago payment validation.
-
-Expected flow:
-
-1. User creates order
-2. User receives payment instructions
-3. User completes payment externally
-4. User uploads payment receipt
-5. Organizer validates payment
-6. System generates ticket
-
-
-Architecture must allow future integrations:
-
-- Mercado Pago Checkout Pro
-- Mercado Pago Webhooks
-- Stripe
-- Other providers
-
-
-Payment providers must never leak into business logic.
-
-
-## Notifications
-
-Support:
-
-- Purchase confirmation
-- Payment approved
-- Payment rejected
-- Ticket delivery
-- Event reminders
-
+## 4. Architecture Principles
+- **Modular Monolith:** Organize code around high-level business domains rather than purely technical layers (controllers, models, etc.). Keep cross-domain imports restricted or mediated through well-defined service interfaces.
+- **Unidirectional Data Flow:** Ensure data flows down and events flow up.
+- **Separation of Concerns:** Keep business logic outside of visual presentation components. UI components must stay presentation-focused, utilizing custom hooks or utility functions for data mutations and interactions.
+- **Provider-Agnostic Interfaces:** Integrate third-party adapters (like payment gateways, mail senders, and file storages) behind generic interfaces (e.g., `PaymentProvider`, `EmailService`) to prevent vendor lock-in.
 
 ---
 
-# Architecture Rules
-
-Prefer:
-
-- Feature-based organization
-- Clear domain boundaries
-- Strong typing
-- Reusable components
-- Separation of concerns
-
-
-Avoid:
-
-- Massive components
-- Duplicate logic
-- Global state abuse
-- Hidden dependencies
-- Magic behavior
-
-
----
-
-# Recommended Project Structure
-
-Preferred direction:
-
-
+## 5. Feature/Domain Organization
+The standard structure inside `src/` should follow:
 ```
-
 src/
-
-features/
-
-events/
-
-tickets/
-
-payments/
-
-users/
-
-checkin/
-
-components/
-
-lib/
-
-config/
-
-emails/
-
-database/
-
-tests/
-
+├── features/
+│   ├── auth/          # Authentication & User Sessions
+│   ├── events/        # Event Creation, Display, and Discovery
+│   ├── tickets/       # Ticket PDF generation, QR codes, & Validation
+│   ├── payments/      # Generic payment handlers & specific integrations
+│   ├── orders/        # Order creation, status tracking, checkout
+│   ├── checkin/       # Ticket scanning and attendance validation
+│   ├── dashboard/     # Organizer & Admin analytics/management console
+│   └── users/         # Profile management & roles
+├── components/        # Shared UI components (shadcn/ui base elements)
+├── lib/               # Shared utilities, hooks, database clients
+├── config/            # Site configuration (theming, global metadata)
+├── emails/            # React Email templates or transaction email logic
+├── database/          # Prisma schema, migrations, and seed scripts
+└── tests/             # Global integration and end-to-end tests
 ```
 
+---
 
-Adapt if the chosen framework requires another structure.
-
+## 6. Security Requirements
+Security is not an afterthought. Every action must be designed with the following threat models in mind:
+- **Authentication:** All secure sessions must be managed with robust cookie-based authentication, with server-side validation of session tokens.
+- **Authorization & IDOR Prevention:** Never trust user-provided identifiers (e.g., order ID, event ID) blindly. Verify that the authenticated user owns or has authorization to access/modify the resource on the server side.
+- **Input Validation:** Use `zod` schema verification for all API payloads, query strings, and form submissions.
+- **Safe File Uploads:** All file uploads must be checked for type (using magic bytes, not just file extensions) and file size. Upload files directly to secure objects (e.g., S3-compatible) with temporary pre-signed links.
+- **Payment Verification:** Webhooks must verify incoming payloads using cryptographic signatures provided by the payment gateways (e.g., Mercado Pago secret headers).
+- **Secrets Management:** Secrets must never be committed to git. Use environment variables with appropriate fallback validations during application startup.
 
 ---
 
-# Technology Preferences
-
-Preferred stack:
-
-Frontend:
-
-- TypeScript
-- React
-- Next.js
-- Tailwind CSS
-- shadcn/ui
-
-
-Backend:
-
-- Node.js ecosystem
-- Prisma ORM
-- PostgreSQL
-
-
-Testing:
-
-- Unit tests
-- Integration tests
-- End-to-end tests
-
-
-Infrastructure:
-
-- Docker
-- GitHub Actions
-
+## 7. Testing Expectations
+- **Unit Tests:** Write unit tests for utility functions, hooks, helper logic, and pure components. Use Jest / Vitest.
+- **Integration Tests:** Test database interactions, API endpoints, and critical domain flows (such as order placements and payment updates).
+- **End-to-End Tests:** Write Playwright scripts for happy paths, such as event creation, ordering, manual receipt uploading, and ticket check-ins.
+- **Code Coverage:** Maintain at least 80% coverage on core business logic files. Never remove tests to bypass pipeline failures.
 
 ---
 
-# Security Requirements
-
-Always consider:
-
-## Authentication
-
-- Secure sessions
-- Proper password handling
-- Role validation
-
-
-## Authorization
-
-Never trust client-side permissions.
-
-Every sensitive action must validate permissions server-side.
-
-
-## Input Validation
-
-All external input requires validation.
-
-Use schemas.
-
-Examples:
-
-- Forms
-- API payloads
-- Query parameters
-
-
-## Files
-
-Uploaded files require:
-
-- Type validation
-- Size limits
-- Safe storage
-
-
-## Secrets
-
-Never commit:
-
-- API keys
-- Tokens
-- Credentials
-- Production environment files
-
+## 8. Accessibility Expectations
+- **Semantic HTML:** Ensure components use correct elements (`<article>`, `<button>`, `<nav>`, etc.) instead of wrapping everything in `<div>`s.
+- **Keyboard Navigation:** All interactive elements must be keyboard-accessible. Ensure clear focus outlines are present.
+- **ARIA Attributes:** Leverage Radix UI / shadcn/ui primitives which have ARIA attributes baked in. Ensure custom components use proper roles.
+- **Contrast & Fonts:** Adhere to WCAG AA guidelines for minimum contrast ratios.
 
 ---
 
-# Database Rules
-
-Database models must:
-
-- Have clear naming
-- Include timestamps
-- Avoid unnecessary duplication
-- Support future migrations
-
-
-Prefer:
-
-- UUID identifiers
-- Soft deletes where appropriate
-- Explicit relationships
-
+## 9. Documentation Rules
+- **Live Updates:** When completing a task, update the corresponding `ROADMAP.md` checkbox and append any changes to `CHANGELOG.md`.
+- **Architectural Decisions:** If you introduce major architecture changes or new external dependencies, create an Architectural Decision Record (ADR) file in `docs/adr/`.
+- **No Outdated Comments:** Avoid writing TODO comments in code without matching tickets or Roadmap items. Clean up temporary comments before completing a task.
 
 ---
 
-# UI Guidelines
-
-The application should feel:
-
-- Modern
-- Minimal
-- Professional
-- Fast
-
-
-Avoid:
-
-- Generic templates
-- Excessive animations
-- Unnecessary complexity
-
-
-Prioritize:
-
-- Mobile-first design
-- Accessibility
-- Clear hierarchy
-- Good empty states
-- Good loading states
-
+## 10. Git Conventions
+- **Branching:** Use descriptive branch names (e.g., `feat/event-creation`, `fix/ticket-qr-encoding`).
+- **Conventional Commits:** Every commit must follow Conventional Commits formatting:
+  - `feat(<domain>): description`
+  - `fix(<domain>): description`
+  - `docs(<domain>): description`
+- **Clear Commit Messages:** Avoid messages like "update code". Keep changes atomic, and supply descriptive body notes when helpful.
 
 ---
 
-# Customization
-
-The project should be easy to rebrand.
-
-Avoid hardcoded branding.
-
-Prefer centralized configuration:
-
-Example:
-
-```
-
-siteConfig
-
-themeConfig
-
-brandingConfig
-
-```
-
-
-A fork should be able to modify:
-
-- Name
-- Logo
-- Colors
-- Metadata
-- Social links
-
-
-without rewriting components.
-
+## 11. Dependency Rules
+- **Keep it Lean:** Do not introduce third-party libraries for simple functions. Verify if a utility can be written cleanly in under 50 lines of TypeScript first.
+- **Peer Dependencies:** When adding packages, check for dependency resolution conflicts. Keep the package lockfile updated.
+- **Security Scans:** Ensure all installed packages are checked for vulnerabilities using `npm audit`.
 
 ---
 
-# Testing Requirements
-
-Every important feature should include tests.
-
-Before considering work complete:
-
-- Run existing tests
-- Add missing tests
-- Fix failures
-
-
-Never remove tests to make builds pass.
-
+## 12. Database Rules
+- **Migrations:** All schema changes must be driven by Prisma migration scripts. Never modify live databases directly.
+- **UUIDs:** Use robust, non-predictable UUID keys (e.g., `uuidv4`) for exposed IDs (like order, ticket, and user IDs) to mitigate sequence probing attacks.
+- **Timestamps:** Every model must have `createdAt` and `updatedAt` fields.
+- **Indices:** Always add indexes to foreign keys and highly queried fields (e.g., user profiles by email, tickets by QR hash).
 
 ---
 
-# Documentation Requirements
-
-Keep updated:
-
-- README.md
-- ROADMAP.md
-- CHANGELOG.md
-- CONTRIBUTING.md
-
-
-When introducing architecture decisions:
-
-Create:
-
-```
-
-docs/adr/
-
-```
-
+## 13. Payment Architecture Principles
+- **Decoupled Workflows:** The billing and checkout domain must not directly access database entities from other domains like events or tickets. It should communicate via events or specific service layers.
+- **State Machine Auditing:** Payments must progress through explicit, immutable states: `PENDING` -> `PROCESSING` -> `COMPLETED` / `REJECTED`. Every payment state change must be logged in a payment attempts history table.
+- **Provider Agnostic:** Keep the checkout handler generic, delegating specific API steps to driver adapters (e.g., `MercadoPagoAdapter`, `StripeAdapter`).
 
 ---
 
-# Git Guidelines
-
-Use:
-
-Conventional Commits.
-
-
-Examples:
-
-```
-
-feat(events): add event publishing
-
-fix(tickets): prevent duplicate QR generation
-
-docs(readme): update installation guide
-
-```
-
-
-Never:
-
-- Force push
-- Delete branches
-- Merge automatically
-
-
-Changes should always be reviewable.
-
+## 14. AI-Agent Workflow
+You are an AI software engineering agent executing tasks in this codebase. Follow these step-by-step rules:
+1. **Repository Inspection:** Before doing anything, inspect the repository state, read existing docs (`AGENTS.md`, `README.md`, `ROADMAP.md`), and explore current file trees. Do not assume previous state information.
+2. **Prioritization:** Always look for the highest-priority, uncompleted checkbox item in `ROADMAP.md`. Work on it systematically.
+3. **Draft Plan:** Run `request_plan_review` and obtain approval before running `set_plan`.
+4. **Implement completely:** Write robust, production-grade code including input schema verification, proper database queries, loading states, and error handling.
+5. **Verify changes:** Verify files after editing them by using `read_file`, `list_files`, or compiling/running tests. Do not mark steps complete without explicit verification.
+6. **Testing:** Write or update tests, and make sure existing tests still pass.
+7. **Document & Update Roadmaps:** Mark the tasks complete in `ROADMAP.md`, update `CHANGELOG.md`, and refine any applicable domain documentation.
 
 ---
 
-# AI Agent Workflow
-
-Before modifying code:
-
-1. Inspect repository state.
-2. Read existing documentation.
-3. Understand current architecture.
-4. Identify the highest-value improvement.
-
-Do not blindly follow old TODOs if the repository state changed.
-
-
-After changes:
-
-Provide:
-
-- Summary
-- Files changed
-- Reasoning
-- Tests executed
-- Remaining considerations
-
-
----
-
-# Definition of Done
-
-A feature is complete when:
-
-- Code works
-- Tests exist
-- Documentation is updated
-- Security was considered
-- UX is acceptable
-- No obvious technical debt was introduced
-
-
----
-
-# Long-Term Goal
-
-Transform this repository into one of the best examples of an AI-friendly, open-source event management starter kit.
-
-Optimize for:
-
-- Developers
-- Contributors
-- Forks
-- Long-term maintenance
+## 15. Definition of Done
+A task is complete only when:
+- [ ] Code functions exactly as specified under all edge cases.
+- [ ] All inputs are strictly validated (via Zod or equivalent).
+- [ ] Proper error handling, logging, and recovery systems are in place.
+- [ ] Tests exist for new code pathways and pass cleanly.
+- [ ] Manual or automated verification screenshots/video are captured.
+- [ ] Security boundaries (IDOR check, permission gating) are validated.
+- [ ] Core configuration files (such as `ROADMAP.md` and `CHANGELOG.md`) are updated.
+- [ ] Pre-commit scripts and styling checks run and pass with zero issues.
