@@ -1,0 +1,148 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  ORGANIZER
+  ATTENDEE
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum OrderStatus {
+  PENDING
+  AWAITING_PAYMENT
+  PAYMENT_UPLOADED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  REJECTED
+  FAILED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(ATTENDEE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  events   Event[]  @relation("CreatedEvents")
+  orders   Order[]
+
+  @@index([email])
+}
+
+model Event {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  category    String
+  bannerUrl   String?
+  location    String      // physical or virtual location
+  startDate   DateTime
+  endDate     DateTime
+  timezone    String      @default("UTC")
+  capacity    Int
+  status      EventStatus @default(DRAFT)
+  organizerId String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relationships
+  organizer User    @relation("CreatedEvents", fields: [organizerId], references: [id], onDelete: Cascade)
+  orders    Order[]
+
+  @@index([organizerId])
+  @@index([category])
+  @@index([status])
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  eventId     String
+  userId      String?     // null for guest checkout
+  guestEmail  String?     // guest details if userId is null
+  guestName   String?
+  quantity    Int
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relationships
+  event       Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user        User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  payments    PaymentAttempt[]
+  tickets     Ticket[]
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([status])
+}
+
+model PaymentAttempt {
+  id                   String        @id @default(uuid())
+  orderId              String
+  amount               Float
+  currency             String        @default("ARS")
+  status               PaymentStatus @default(PENDING)
+  receiptUrl           String?       // manual payment receipt file path
+  rejectionReason      String?       // if status is REJECTED
+  gatewayTransactionId String?       // if automated payment
+  metadata             Json?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  // Relationships
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([status])
+}
+
+model Ticket {
+  id             String   @id @default(uuid())
+  orderId        String
+  ticketHash     String   @unique @default(uuid()) // secure random verification code
+  checkedIn      Boolean  @default(false)
+  checkedInAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  order       Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  checkInLogs CheckInLog[]
+
+  @@index([orderId])
+  @@index([ticketHash])
+}
+
+model CheckInLog {
+  id         String   @id @default(uuid())
+  ticketId   String
+  scannedBy  String   // userId of check-in staff / organizer
+  status     String   // e.g., "SUCCESS", "DUPLICATE", "INVALID"
+  createdAt  DateTime @default(now())
+
+  // Relationships
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+}

@@ -12,10 +12,10 @@ Future AI developer agents (such as Jules) and human contributors must refer to 
 
 ## 🛠️ Phase 1: Foundation
 Build the basic setup configuration, framework scaffolding, database connection adapters, and the base layout structure.
-- [ ] **1.1 Next.js Project Initializer:** Set up the Next.js (App Router) project with TypeScript, Tailwind CSS, and shadcn/ui.
-- [ ] **1.2 Database Hookup & Prisma Schema:** Configure Docker Compose for PostgreSQL. Set up the Prisma schema with baseline configurations (`createdAt`, `updatedAt`).
-- [ ] **1.3 Site Configuration Setup:** Build site configuration logic (`config/site.ts`) to manage site name, social profiles, metadata, and branding options dynamically.
-- [ ] **1.4 Basic Testing Pipeline:** Set up Vitest for backend/unit testing, and Playwright for E2E testing. Ensure pre-commit checking hooks are configured.
+- [x] **1.1 Next.js Project Initializer:** Set up the Next.js (App Router) project with TypeScript, Tailwind CSS, and shadcn/ui.
+- [x] **1.2 Database Hookup & Prisma Schema:** Configure Docker Compose for PostgreSQL. Set up the Prisma schema with baseline configurations (`createdAt`, `updatedAt`).
+- [x] **1.3 Site Configuration Setup:** Build site configuration logic (`config/site.ts`) to manage site name, social profiles, metadata, and branding options dynamically.
+- [x] **1.4 Basic Testing Pipeline:** Set up Vitest for backend/unit testing, and Playwright for E2E testing. Ensure pre-commit checking hooks are configured.
 
 ## 📦 Phase 2: Application Shell
 Assemble the baseline navigation and UI structure.
