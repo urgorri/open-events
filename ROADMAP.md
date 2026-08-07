@@ -19,9 +19,9 @@ Build the basic setup configuration, framework scaffolding, database connection 
 
 ## 📦 Phase 2: Application Shell
 Assemble the baseline navigation and UI structure.
-- [ ] **2.1 Header and Footer Navigation:** Create a beautiful, responsive global navigation header and footer that adjust based on active login state.
-- [ ] **2.2 Shell Sidebar / Mobile Drawer:** Responsive navigation sidebar for dashboard pages, optimized for mobile gate-controllers and desktop organizers.
-- [ ] **2.3 Error Boundary and Suspense Layouts:** Implement robust global loading, error boundaries, and empty state templates.
+- [x] **2.1 Header and Footer Navigation:** Create a beautiful, responsive global navigation header and footer that adjust based on active login state.
+- [x] **2.2 Shell Sidebar / Mobile Drawer:** Responsive navigation sidebar for dashboard pages, optimized for mobile gate-controllers and desktop organizers.
+- [x] **2.3 Error Boundary and Suspense Layouts:** Implement robust global loading, error boundaries, and empty state templates.
 
 ## 🔐 Phase 3: Authentication and Users
 Set up multi-role user schemas, login methods, and permission middleware.

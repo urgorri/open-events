@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.2.0] - 2026-08-08
+
+This release marks the successful completion of **Phase 2: Application Shell**, establishing the global navigation structures, adaptive layout headers/footers, responsive dashboard sidebar, and generic empty, error, and loading state components.
+
+### Added
+- **Global Header Component**: Implemented adaptive navigation rendering that displays user controls and custom actions depending on their simulated/authenticated role (Attendee, Organizer, Admin, Guest).
+- **Global Footer Component**: Designed dynamic responsive footer including brand summaries, category search options, dynamic system statistics links, custom support contacts, and social media SVG parameters.
+- **Dashboard Sidebar**: Developed collapsable and mobile-ready navigation drawer designed for quick accessibility across mobile gate-scanners and desktop organizer screens.
+- **Adaptive Role Selector & Simulator**: Engineered an interactive client-side selector context that sets cookie tokens and reloads the application shell dynamically to inspect multi-role layout variations.
+- **Loading, Empty, and Error Boundaries**: Structured robust global loading skeletons, dynamic empty template handlers, and visual reload boundaries to handle unexpected system errors safely.
+- **Multi-Role E2E and Unit Verification**: Wrote integration-level specs using Vitest and Playwright to verify that authentication flows, header visibility, and role sidebar navigation render flawlessly.
+
+---
+
 ## [0.1.0] - 2026-08-07
 
 This release marks the successful completion of **Phase 1: Foundation**, establishing the complete Next.js scaffolding, database configuration, site branding configs, and the testing suite framework.

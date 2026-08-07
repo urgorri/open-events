@@ -1,101 +1,142 @@
-import Image from "next/image";
+import { getMockSession } from "@/lib/mock-auth";
+import { RoleSimulator } from "@/components/navigation/role-simulator";
+import { Calendar, Ticket, CreditCard, CheckSquare, Sparkles } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const user = await getMockSession();
+  const resolvedParams = await searchParams;
+  const unauthorized = resolvedParams.unauthorized === "true";
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="flex-1 py-12 sm:py-20 lg:py-24 bg-gradient-to-b from-background to-muted/20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Hero Section */}
+        <div className="text-center max-w-3xl mx-auto space-y-6">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 text-primary text-xs font-semibold border border-primary/10">
+            <Sparkles className="h-3.5 w-3.5" />
+            Phase 2: Beautiful Application Shell Implemented
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
+            The Open-Source <span className="text-primary">Event & Ticketing</span> Starter Kit.
+          </h1>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            Build beautiful public event websites, secure QR-ticketing, dynamic capacities, and flexible merchant payments. Decoupled, modular, and extremely forkable.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-4">
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="rounded-lg bg-primary text-primary-foreground font-semibold text-sm h-11 px-6 inline-flex items-center justify-center hover:bg-primary/90 transition-colors"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <a
+                href="#simulator"
+                className="rounded-lg bg-primary text-primary-foreground font-semibold text-sm h-11 px-6 inline-flex items-center justify-center hover:bg-primary/90 transition-colors"
+              >
+                Simulate Role & Start
+              </a>
+            )}
+            <Link
+              href="/events"
+              className="rounded-lg border border-border bg-card text-card-foreground font-semibold text-sm h-11 px-6 inline-flex items-center justify-center hover:bg-muted transition-colors"
+            >
+              Browse Events
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Development Simulator Box */}
+        <section id="simulator" className="py-8 scroll-mt-20">
+          <div className="text-center space-y-3 mb-6">
+            <h2 className="text-2xl font-bold tracking-tight">Interactive Role Simulator</h2>
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+              Test how the global navigation, layout menus, and routes adjust dynamically.
+            </p>
+          </div>
+          <RoleSimulator currentRole={user ? user.role : null} unauthorized={unauthorized} />
+        </section>
+
+        {/* Features Grid Teaser */}
+        <section className="space-y-8 pt-4">
+          <div className="text-center space-y-3">
+            <h2 className="text-2xl font-bold tracking-tight">Features Under Construction</h2>
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+              Our decoupled architecture makes it extremely straightforward to support every core event functionality.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div className="border border-border rounded-xl p-5 bg-card space-y-3">
+              <div className="h-10 w-10 rounded-lg bg-primary/5 text-primary flex items-center justify-center">
+                <Calendar className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-sm">Event Creator (Phase 4)</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Step-by-step form with venue, dynamic ticket pricing tiers, rich descriptive notes, and custom categories.
+              </p>
+            </div>
+
+            <div className="border border-border rounded-xl p-5 bg-card space-y-3">
+              <div className="h-10 w-10 rounded-lg bg-primary/5 text-primary flex items-center justify-center">
+                <CreditCard className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-sm">Decoupled Payments (Phase 7)</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Manual Mercado Pago links with secure file receipts validation, transforming to Stripe webhooks easily.
+              </p>
+            </div>
+
+            <div className="border border-border rounded-xl p-5 bg-card space-y-3">
+              <div className="h-10 w-10 rounded-lg bg-primary/5 text-primary flex items-center justify-center">
+                <Ticket className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-sm">QR Tickets (Phase 8)</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Cryptographically secure validation hashes rendered as high-fidelity QR codes and beautiful printable PDFs.
+              </p>
+            </div>
+
+            <div className="border border-border rounded-xl p-5 bg-card space-y-3">
+              <div className="h-10 w-10 rounded-lg bg-primary/5 text-primary flex items-center justify-center">
+                <CheckSquare className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-sm">Mobile Check-in (Phase 10)</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Dedicated responsive viewports for entry scanners to check ticket validities and check in guests instantly.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Getting Started Guide */}
+        <section className="bg-card border border-border rounded-xl p-6 md:p-8 max-w-3xl mx-auto space-y-4">
+          <h3 className="font-bold text-lg">Quick Start local development</h3>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Run these commands in your sandbox or command line terminal to seed mock parameters and boot the local server:
+          </p>
+          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-[11px] font-mono leading-relaxed text-foreground">
+{`# 1. Install packages
+npm install
+
+# 2. Setup the Prisma database
+npx prisma generate
+npx prisma db push
+
+# 3. Boot Next.js server
+npm run dev`}
+          </pre>
+        </section>
+
+      </div>
+    </main>
   );
 }
