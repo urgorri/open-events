@@ -1,330 +1,94 @@
 # Open Events
 
-A modern, open-source event management and ticketing starter kit.
+A modern, open-source event management and ticketing starter kit. Built to be forked, customized, and deployed.
 
-Built to be forked, customized and deployed.
-
-Create events, sell tickets, manage attendees and validate access with QR codes.
+Create events, sell tickets, manage attendees, and validate access with QR codes.
 
 ---
 
-## Features
-
-## Event Management
-
-- Create and manage events
-- Public event pages
-- Categories
-- Locations
-- Capacity management
-- Publishing workflow
-
-
-## Ticketing
-
-- Digital tickets
-- QR codes
-- PDF tickets
-- Ticket validation
-- Event check-in
-
-
-## Payments
-
-Current support:
-
-- Manual payment validation flow
-- Mercado Pago payment links
-
-
-Designed for future integrations:
-
-- Mercado Pago Checkout Pro
-- Mercado Pago Webhooks
-- Stripe
-
-
-## Organizer Dashboard
-
-Manage:
-
-- Events
-- Orders
-- Attendees
-- Payments
-- Check-ins
-
-
-## Open Source First
-
-This project is designed for:
-
-- Forking
-- Custom branding
-- Community contributions
-- AI-assisted development
-
+> ### ⚠️ Project Status: Under Construction (Documentation Phase)
+> **CURRENT STATE:** This project is currently in its initial bootstrap phase. The application features, database models, payment processes, and visual interfaces **do not yet exist**. This repository contains the permanent documentation foundation and technical blueprint that future scheduled AI-agent tasks and human contributors will use to incrementally implement the complete system.
 
 ---
 
-# Screenshots
+## 🚀 Vision
+Open Events provides a robust modular-monolith foundation for anyone wanting to build:
+* Independent ticketing platforms (e.g., self-hosted alternatives to Eventbrite)
+* Corporate conference management systems
+* Local meetup and community workshop hubs
+* Music festivals, sport events, and registration pipelines
 
-Coming soon.
-
-
----
-
-# Tech Stack
-
-Planned stack:
-
-- TypeScript
-- React
-- Next.js
-- Tailwind CSS
-- PostgreSQL
-- Prisma
-- Docker
-
+By keeping the application highly configurable and separating presentation from business models, forks can customize branding, colors, logos, and visual parameters in seconds without modifying core files.
 
 ---
 
-# Getting Started
+## 🛠️ Intended Tech Stack
+The proposed architecture is built on a modern, robust, and highly type-safe backend/frontend pipeline:
 
-## Requirements
+* **Framework:** [Next.js](https://nextjs.org) (React-based, using App Router for API endpoints and layouts)
+* **Language:** [TypeScript](https://www.typescriptlang.org) (For strict contract enforcement)
+* **Styling & Components:** [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (Radix UI primitives)
+* **Database:** [PostgreSQL](https://www.postgresql.org)
+* **ORM:** [Prisma ORM](https://www.prisma.io)
+* **Testing:** [Vitest](https://vitest.dev) (Unit & Integration) + [Playwright](https://playwright.dev) (End-to-End)
+* **Containers:** Docker Compose for local database and environment execution
 
-Install:
+---
 
-- Node.js
-- Docker
-- PostgreSQL
+## 📋 Planned Core Features
+1. **Event Management:** Event creation (CRUD), publishing controls, rich text descriptions, cover images, and customizable venue/capacity configuration.
+2. **Ticketing & Orders:** High-performance ticket generation, order state machines, and purchase confirmation.
+3. **Receipt Validation & Payments:** Decoupled payments interface starting with a manual validation flow (Mercado Pago link -> receipt upload -> organizer review) transitioning to automated integrations (Mercado Pago webhooks, Stripe checkout, etc.).
+4. **Validation (QR / PDF):** Generation of beautiful PDF tickets containing secure, tamper-proof check-in QR codes.
+5. **Mobile Verification:** QR validation scanner optimized for mobile-web viewports to allow quick gate entry.
+6. **Analytics Dashboards:** Beautiful visualizations for organizers to track sales, attendance, and payouts.
 
+---
 
-## Installation
+## 📁 Getting Started (Planned Flow)
+Once the setup phase is implemented, running the app locally will follow this process:
 
-Clone repository:
+### 1. Requirements
+* Node.js (v18+)
+* Docker and Docker Compose
 
+### 2. Installation
 ```bash
-git clone https://github.com/YOUR_USERNAME/open-events.git
-
+git clone https://github.com/your-username/open-events.git
 cd open-events
-````
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Create environment file:
-
+### 3. Setup Environment
 ```bash
 cp .env.example .env
 ```
 
-Start services:
-
+### 4. Run Services
 ```bash
 docker compose up -d
-```
-
-Run development server:
-
-```bash
+npm run db:migrate
 npm run dev
 ```
 
 ---
 
-# Project Structure
-
-```
-src/
-
-features/
-
-components/
-
-lib/
-
-database/
-
-emails/
-
-tests/
-```
-
-The project follows a feature-oriented architecture.
+## ⚙️ Customization & Forking
+To build customized portals, developers won't need to dive deep into database schemas. Open Events relies on isolated site configuration variables detailed in `THEMING.md` that configure brand colors, custom typography, terms & conditions, landing metadata, and logos.
 
 ---
 
-# Configuration
+## 🤝 Contributing & AI Agents
+We welcome human developers and AI assistants.
+If you are an AI developer agent, please read `AGENTS.md` before making any contributions. It contains critical instructions about project standards, workflows, and definitions of done.
 
-The application is designed to be easily customized.
-
-Main configuration areas:
-
-* Branding
-* Theme
-* Emails
-* Payments
-* Authentication
+* Detailed design and design patterns: `ARCHITECTURE.md`
+* Step-by-step roadmap: `ROADMAP.md`
+* Payment logic and lifecycles: `PAYMENTS.md`
+* Development instructions: `CONTRIBUTING.md`
+* Security principles: `SECURITY.md`
 
 ---
 
-# Payments
-
-## Manual Mercado Pago Flow
-
-The initial payment workflow:
-
-```
-Customer
-
-↓
-
-Creates order
-
-↓
-
-Pays through Mercado Pago link
-
-↓
-
-Uploads receipt
-
-↓
-
-Organizer validates
-
-↓
-
-Ticket generated
-```
-
-Future versions will support automatic payment confirmation.
-
----
-
-# Deployment
-
-The application is designed to run on:
-
-* Vercel
-* Docker
-* Self-hosted servers
-
-Deployment documentation will be available in:
-
-```
-docs/DEPLOYMENT.md
-```
-
----
-
-# Development
-
-Run:
-
-```bash
-npm run dev
-```
-
-Testing:
-
-```bash
-npm run test
-```
-
-Lint:
-
-```bash
-npm run lint
-```
-
----
-
-# Roadmap
-
-## Phase 1
-
-Foundation:
-
-* Project setup
-* Authentication
-* Database
-* UI system
-
-## Phase 2
-
-Events:
-
-* Event CRUD
-* Public pages
-* Organizer dashboard
-
-## Phase 3
-
-Tickets:
-
-* Orders
-* QR generation
-* PDF tickets
-* Check-in
-
-## Phase 4
-
-Payments:
-
-* Manual validation
-* Mercado Pago integration
-* Automatic confirmations
-
-## Phase 5
-
-Advanced:
-
-* Multiple ticket types
-* Coupons
-* Seating
-* Analytics
-* Mobile app
-
----
-
-# Contributing
-
-Contributions are welcome.
-
-Before contributing:
-
-1. Read AGENTS.md
-2. Check existing issues
-3. Follow project conventions
-
----
-
-# License
-
-MIT License.
-
-You are free to:
-
-* Use
-* Modify
-* Fork
-* Deploy commercially
-
----
-
-# Philosophy
-
-Open Events exists to demonstrate how a complete, production-ready application can be built openly and collaboratively.
-
-The project prioritizes:
-
-* Simplicity
-* Quality
-* Documentation
-* Developer experience
-* AI-assisted development
+## 📄 License
+This project is licensed under the MIT License - see the `LICENSE` file for details.
