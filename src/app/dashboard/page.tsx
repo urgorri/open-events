@@ -3,11 +3,7 @@ import { BarChart3, Calendar, DollarSign, Activity, Ticket } from "lucide-react"
 
 export default async function DashboardPage() {
   const session = await auth();
-  const user = session?.user as { name?: string | null; email?: string | null; role?: string } | undefined;
-
-  if (!user) {
-    return null; // layout will redirect
-  }
+  const user = session?.user as { name?: string | null; email?: string | null; role?: string };
 
   return (
     <div className="space-y-6">
