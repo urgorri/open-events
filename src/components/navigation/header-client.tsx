@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { setMockRole } from "@/lib/mock-auth-actions";
+import { signOut } from "next-auth/react";
 import { LogOut, Menu, X, LayoutDashboard, Plus, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -9,9 +9,9 @@ import Link from "next/link";
 interface HeaderClientProps {
   action: "logout" | "menu";
   user?: {
-    name: string;
-    email: string;
-    role: string;
+    name?: string | null;
+    email?: string | null;
+    role?: string;
   } | null;
 }
 
@@ -19,10 +19,7 @@ export function HeaderClient({ action, user }: HeaderClientProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
-    await setMockRole("GUEST");
-    if (typeof window !== "undefined") {
-      window.location.href = "/";
-    }
+    await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   if (action === "logout") {

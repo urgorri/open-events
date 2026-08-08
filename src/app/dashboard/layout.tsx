@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getMockSession } from "@/lib/mock-auth";
+import { auth } from "@/lib/auth";
 import { Sidebar } from "@/components/navigation/sidebar";
 
 export default async function DashboardLayout({
@@ -7,7 +7,8 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getMockSession();
+  const session = await auth();
+  const user = session?.user as { name?: string | null; email?: string | null; role?: string } | undefined;
 
   // If no mock session exists, redirect to home page with instructions
   if (!user) {

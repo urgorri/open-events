@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.3.0] - 2026-08-08
+
+This release marks the successful completion of **Phase 3: Authentication and Users**.
+
+### Added
+- Implemented real session-based authentication using NextAuth v5 (beta) and Prisma Adapter.
+- Added `password` field to the `User` schema and ran database migrations.
+- Set up role-based route protection middleware blocking unauthenticated access to `/dashboard` and restricting `/dashboard/admin` to `ADMIN` roles.
+- Switched the front-end components to accept and consume NextAuth's `useSession` and server component `auth()` sessions instead of mock cookies.
+
+---
+
 ## [0.2.0] - 2026-08-08
 
 This release marks the successful completion of **Phase 2: Application Shell**, establishing the global navigation structures, adaptive layout headers/footers, responsive dashboard sidebar, and generic empty, error, and loading state components.

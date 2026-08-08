@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { setMockRole } from "@/lib/mock-auth-actions";
+import { signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Shield, Briefcase, User, LogOut, Info } from "lucide-react";
 
@@ -17,10 +17,20 @@ export function RoleSimulator({ currentRole, unauthorized }: RoleSimulatorProps)
   const handleRoleChange = async (role: string) => {
     setLoading(true);
     setSelected(role);
-    await setMockRole(role);
-    if (typeof window !== "undefined") {
-      window.location.reload();
+
+    if (role === "GUEST") {
+      await signOut({ redirect: true, callbackUrl: "/" });
+      return;
     }
+
+    // In a real application, you'd have a proper sign in form.
+    // Since we are mocking with credentials, we sign in with standard testing credentials.
+    await signIn("credentials", {
+      email: `${role.toLowerCase()}@example.com`,
+      password: "password123",
+      redirect: true,
+      callbackUrl: "/",
+    });
   };
 
   return (

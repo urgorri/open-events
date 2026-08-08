@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { MockUser } from "@/lib/mock-auth";
 import { Button } from "@/components/ui/button";
 import {
   Calendar,
@@ -21,7 +20,11 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
-  user: MockUser;
+  user: {
+    name?: string | null;
+    email?: string | null;
+    role?: string;
+  };
 }
 
 export function Sidebar({ user }: SidebarProps) {
@@ -112,7 +115,7 @@ export function Sidebar({ user }: SidebarProps) {
       {/* Mobile Top Header for Sidebar Toggle */}
       <div className="flex md:hidden items-center justify-between px-4 h-12 border-b border-border bg-card text-foreground sticky top-14 z-40">
         <span className="text-xs font-semibold capitalize">
-          {user.role.toLowerCase()} Area
+          {user.role?.toLowerCase()} Area
         </span>
         <Button
           variant="outline"
@@ -135,12 +138,12 @@ export function Sidebar({ user }: SidebarProps) {
         {/* User Card */}
         <div className={cn("p-4 border-b border-border flex items-center gap-3", isCollapsed && "justify-center")}>
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold shrink-0">
-            {user.name.charAt(0)}
+            {user.name?.charAt(0) || "U"}
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
               <span className="text-sm font-semibold truncate leading-tight">{user.name}</span>
-              <span className="text-xs text-muted-foreground truncate capitalize leading-none">{user.role.toLowerCase()}</span>
+              <span className="text-xs text-muted-foreground truncate capitalize leading-none">{user.role?.toLowerCase()}</span>
             </div>
           )}
         </div>
