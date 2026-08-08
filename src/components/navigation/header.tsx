@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { getMockSession } from "@/lib/mock-auth";
+import { auth } from "@/lib/auth";
 import { Calendar, LayoutDashboard, Plus, Ticket } from "lucide-react";
 import { HeaderClient } from "./header-client";
 
 export async function Header() {
-  const user = await getMockSession();
+  const session = await auth();
+  const user = session?.user as { name?: string | null; email?: string | null; role?: string } | undefined;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -68,7 +69,7 @@ export async function Header() {
                 <div className="flex flex-col text-right">
                   <span className="text-xs font-semibold leading-tight">{user.name}</span>
                   <span className="text-[10px] text-muted-foreground capitalize leading-none">
-                    {user.role.toLowerCase()}
+                    {user.role?.toLowerCase()}
                   </span>
                 </div>
                 <HeaderClient action="logout" />

@@ -25,9 +25,9 @@ Assemble the baseline navigation and UI structure.
 
 ## 🔐 Phase 3: Authentication and Users
 Set up multi-role user schemas, login methods, and permission middleware.
-- [ ] **3.1 Session-based Authentication:** Implement secure, cookie-based sessions (using Lucent, NextAuth, or custom secure cookies).
-- [ ] **3.2 User Roles Configuration:** Create clear user roles in database schema (`ADMIN`, `ORGANIZER`, `ATTENDEE`).
-- [ ] **3.3 Role Gating Middleware:** Build a secure Next.js middleware / server action check to gate access based on authorization scopes.
+- [x] **3.1 Session-based Authentication:** Implement secure, cookie-based sessions (using Lucent, NextAuth, or custom secure cookies).
+- [x] **3.2 User Roles Configuration:** Create clear user roles in database schema (`ADMIN`, `ORGANIZER`, `ATTENDEE`).
+- [x] **3.3 Role Gating Middleware:** Build a secure Next.js middleware / server action check to gate access based on authorization scopes.
 
 ## 📅 Phase 4: Event Management
 Provide organizers the tools to create and administer events.

@@ -1,4 +1,4 @@
-import { getMockSession } from "@/lib/mock-auth";
+import { auth } from "@/lib/auth";
 import { RoleSimulator } from "@/components/navigation/role-simulator";
 import { Calendar, Ticket, CreditCard, CheckSquare, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -8,7 +8,8 @@ export default async function Home({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const user = await getMockSession();
+  const session = await auth();
+  const user = session?.user as { name?: string | null; email?: string | null; role?: string } | undefined;
   const resolvedParams = await searchParams;
   const unauthorized = resolvedParams.unauthorized === "true";
 
@@ -61,7 +62,7 @@ export default async function Home({
               Test how the global navigation, layout menus, and routes adjust dynamically.
             </p>
           </div>
-          <RoleSimulator currentRole={user ? user.role : null} unauthorized={unauthorized} />
+          <RoleSimulator currentRole={user?.role ?? null} unauthorized={unauthorized} />
         </section>
 
         {/* Features Grid Teaser */}

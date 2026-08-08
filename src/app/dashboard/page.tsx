@@ -1,8 +1,9 @@
-import { getMockSession } from "@/lib/mock-auth";
+import { auth } from "@/lib/auth";
 import { BarChart3, Calendar, DollarSign, Activity, Ticket } from "lucide-react";
 
 export default async function DashboardPage() {
-  const user = await getMockSession();
+  const session = await auth();
+  const user = session?.user as { name?: string | null; email?: string | null; role?: string } | undefined;
 
   if (!user) {
     return null; // layout will redirect
@@ -15,11 +16,11 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Welcome back, {user.name}</h1>
           <p className="text-sm text-muted-foreground">
-            Here is what is happening with your {user.role.toLowerCase()} account today.
+            Here is what is happening with your {user.role?.toLowerCase()} account today.
           </p>
         </div>
         <div className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary capitalize">
-          {user.role.toLowerCase()} Session
+          {user.role?.toLowerCase()} Role
         </div>
       </div>
 
